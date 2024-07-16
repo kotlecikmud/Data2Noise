@@ -8,7 +8,7 @@ Author: Filip Pawłowski 2024
 Contact: filippawlowski2012@gmail.com
 """
 
-__version__ = "00.01.02.01"
+__version__ = "00.01.03.01"
 
 import os
 import time
@@ -40,6 +40,7 @@ class LoadingAnimation:
 # Instantiate LoadingAnimation class
 loading_animation = LoadingAnimation()
 
+INPUT_SIGN = ">>>"
 LOG_F_NAME = ".log"
 
 
@@ -64,7 +65,7 @@ def encode_data(file_data):
         encoded_data.extend([byte >> 4, byte & 0xF])
 
     loading_animation.stop()
-    input("DONE >>>")
+    log_event("DONE >>>")
 
     return encoded_data
 
@@ -80,7 +81,7 @@ def decode_data(data):
         decoded_data.append(byte)
 
     loading_animation.stop()
-    input("DONE >>>")
+    log_event("DONE >>>")
 
     return decoded_data
 
@@ -97,7 +98,7 @@ def save_as_wav(filename, data, sample_rate=44100):
         wav_file.writeframes(data)
 
     loading_animation.stop()
-    input("DONE >>>")
+    log_event("DONE >>>")
 
 
 # Function for reading sound data from a WAV file
@@ -110,7 +111,7 @@ def read_wav_data(filename):
         data = wav_file.readframes(wav_file.getnframes())
 
     loading_animation.stop()
-    input("DONE >>>")
+    log_event("DONE >>>")
 
     return data, sample_width
 
@@ -123,6 +124,8 @@ def encode_file(file_path):
     wav_filename = f"{file_path}.wav"
     save_as_wav(wav_filename, encoded_data)
     log_event(f"The encoded file saved --> {wav_filename}")
+
+    input(INPUT_SIGN)
 
 
 # Function for decoding sound data from a WAV file and saving it as a binary file
@@ -137,9 +140,11 @@ def decode_file(file_path):
     else:
         log_event("Unsupported WAV file format. Supported format is 16-bit PCM.")
 
+    input(INPUT_SIGN)
+
 
 if __name__ == '__main__':
-    log_event(f"START v{__version__}")
+    log_event(f"\n|||\nSTART v{__version__}")
 
     while True:
         cls_()
