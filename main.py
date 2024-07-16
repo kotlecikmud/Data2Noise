@@ -8,9 +8,10 @@ Author: Filip Pawłowski 2024
 Contact: filippawlowski2012@gmail.com
 """
 
-__version__ = "00.01.01.00"
+__version__ = "00.01.02.01"
 
 import os
+import time
 import wave
 import threading
 from datetime import datetime as dt
@@ -31,7 +32,7 @@ class LoadingAnimation:
 
     def _animate(self):
         while not self.finished:
-            log_event('- ' + self.animation_signs[self.sign_index % len(self.animation_signs)] + ' -', end='\r')
+            print('- ' + self.animation_signs[self.sign_index % len(self.animation_signs)] + ' -', end='\r')
             time.sleep(0.1)
             self.sign_index += 1
 
@@ -41,14 +42,16 @@ loading_animation = LoadingAnimation()
 
 LOG_F_NAME = ".log"
 
+
 def cls_():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def log_event(entry):
-    print(entry)
+    current_time = dt.now()
+    print(f"{current_time} || {entry}")
     with open(f"{LOG_F_NAME}", 'a') as f:
-        f.write(f"\n[{dt.now()}]|{entry}")
+        f.write(f"\n[{current_time}]|{entry}")
 
 
 # Function for encoding binary file
